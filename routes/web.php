@@ -27,6 +27,11 @@ Route::get('/user/{name}', function ($name) {
 return 'hello'.$name;
 });
 
+Route::get('/hi', function () {
+return redirect()->route('hello');
+});
+
+
     // fallback route
 Route::fallback(function () {
 return "This is the fallback route.";
