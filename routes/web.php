@@ -16,3 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/hello'  , function () {
+    return 'Hello World';
+})->name('hello');
+// naming the route to reference it later
+
+Route::get('/user/{name}', function ($name) {
+return 'hello'.$name;
+});
+
+    // fallback route
+Route::fallback(function () {
+return "This is the fallback route.";
+
+});
