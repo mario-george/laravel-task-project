@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,8 +78,11 @@ Route::get('/tasks', function () use($tasks){
 
 //naming tradition is index for all items and show for a single item
 Route::get('/tasks/{id}', function ($id) use($tasks){
-
-  return view('tasksShow',["task"=>collect($tasks)->firstWhere('id',$id)]);
+$task=collect($tasks)->firstWhere('id',$id);
+if (!$task){
+abort(Response::HTTP_NOT_FOUND);
+}
+  return view('tasksShow',["task"=>$task]);
 })->name('tasks.show'); 
 
 
