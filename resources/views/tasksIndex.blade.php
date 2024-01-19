@@ -1,3 +1,10 @@
+@extends('layouts.layout')
+@section('title','List of Tasks')
+
+
+@section('content')
+
+
 @foreach($tasks as $task)
 <p>
 
@@ -18,3 +25,4 @@
 <br>
 @empty
 @endforelse
+@endsection
