@@ -68,6 +68,20 @@ $tasks = [
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/tasks', function () use($tasks){
+
+  return view('tasksIndex',["tasks"=>$tasks]);
+})->name('tasks.index'); 
+
+//naming tradition is index for all items and show for a single item
+Route::get('/tasks/{id}', function ($id) use($tasks){
+
+  return view('tasksShow',["task"=>collect($tasks)->firstWhere('id',$id)]);
+})->name('tasks.show'); 
+
+
 Route::get('/index/{name}', function ($name) {
     
 return view('index',['name'=>$name]);
