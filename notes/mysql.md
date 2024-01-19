@@ -27,3 +27,7 @@ username for db server
 ## DB_PASSWORD=root
 
 pw of db server
+
+# docker-compose up -d
+
+## the -d or --detach will make the docker containers run on background
