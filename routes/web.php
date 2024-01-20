@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -70,20 +71,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/tasks', function (){
 
-Route::get('/tasks', function () use($tasks){
+  return view('tasksIndex',['tasks'=>\App\Models\Task::latest()->get()]);
+})->name('tasks.index'); 
+Route::view('/tasks/create', 'create')
+    ->name('tasks.create');
+Route::get('/tasks/{id}', function ($id){
+  Route::post('/tasks', function (Request $request) {
+    dd($request->all());
+})->name('tasks.store');
+
+  return view('tasksShow',['task'=>\App\Models\Task::findOrFail($id)]);
+})->name('tasks.show'); 
+
+/* 
+dummy routes
+*/
+//naming tradition is index for all items and show for a single item
+Route::get('/dummy/tasks', function () use($tasks){
 
   return view('tasksIndex',["tasks"=>$tasks]);
-})->name('tasks.index'); 
+})->name('DummyTasks.index'); 
 
-//naming tradition is index for all items and show for a single item
-Route::get('/tasks/{id}', function ($id) use($tasks){
+
+Route::get('/dummy/tasks/{id}', function ($id) use($tasks){
 $task=collect($tasks)->firstWhere('id',$id);
 if (!$task){
 abort(Response::HTTP_NOT_FOUND);
 }
   return view('tasksShow',["task"=>$task]);
-})->name('tasks.show'); 
+})->name('DummyTasks.show'); 
 
 
 Route::get('/index/{name}', function ($name) {
