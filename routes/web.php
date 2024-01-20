@@ -78,12 +78,12 @@ Route::get('/tasks', function (){
 Route::view('/tasks/create', 'create')
     ->name('tasks.create');
 Route::get('/tasks/{id}', function ($id){
-  Route::post('/tasks', function (Request $request) {
-    dd($request->all());
-})->name('tasks.store');
-
+  
   return view('tasksShow',['task'=>\App\Models\Task::findOrFail($id)]);
 })->name('tasks.show'); 
+Route::post('/tasks', function (Request $request) {
+  dd($request->all());
+})->name('tasks.store');
 
 /* 
 dummy routes
