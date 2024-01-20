@@ -23,3 +23,5 @@ this is a query builder by using methods
 
 ->get() is to execute the query 
 ## \App\Models\Task::latest()->select('title','description')->where('completed',true)   ->get()
+
+
