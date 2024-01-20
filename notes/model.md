@@ -13,3 +13,13 @@ to get a field only you can use \App\Models\Task::latest('fieldName')->get()
 find the element by the primary key which is id but if not found will return null
 ## \App\Models\Task::findOrFail($id)
 find the element by the primary key which is id but if not found will abort with Response.HTTP_NOT_FOUND
+
+
+## php artisan tinker
+let you use queries like \App\Models\Task::all()
+
+## \App\Models\Task::latest()->where('completed',true)   ->get()
+this is a query builder by using methods
+
+->get() is to execute the query 
+## \App\Models\Task::latest()->select('title','description')->where('completed',true)   ->get()
