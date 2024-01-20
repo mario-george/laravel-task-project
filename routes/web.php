@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Task;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-class Task
+class TaskClass
 {
   public function __construct(
     public int $id,
@@ -30,7 +30,7 @@ class Task
 }
 
 $tasks = [
-  new Task(
+  new TaskClass(
     1,
     'Buy groceries',
     'Task 1 description',
@@ -39,7 +39,7 @@ $tasks = [
     '2023-03-01 12:00:00',
     '2023-03-01 12:00:00'
   ),
-  new Task(
+  new TaskClass(
     2,
     'Sell old stuff',
     'Task 2 description',
@@ -48,7 +48,7 @@ $tasks = [
     '2023-03-02 12:00:00',
     '2023-03-02 12:00:00'
   ),
-  new Task(
+  new TaskClass(
     3,
     'Learn programming',
     'Task 3 description',
@@ -57,7 +57,7 @@ $tasks = [
     '2023-03-03 12:00:00',
     '2023-03-03 12:00:00'
   ),
-  new Task(
+  new TaskClass(
     4,
     'Take dogs for a walk',
     'Task 4 description',
@@ -73,16 +73,28 @@ Route::get('/', function () {
 
 Route::get('/tasks', function (){
 
-  return view('tasksIndex',['tasks'=>\App\Models\Task::latest()->get()]);
+  return view('tasksIndex',['tasks'=>Task::latest()->get()]);
 })->name('tasks.index'); 
 Route::view('/tasks/create', 'create')
     ->name('tasks.create');
 Route::get('/tasks/{id}', function ($id){
   
-  return view('tasksShow',['task'=>\App\Models\Task::findOrFail($id)]);
+  return view('tasksShow',['task'=>Task::findOrFail($id)]);
 })->name('tasks.show'); 
 Route::post('/tasks', function (Request $request) {
-  dd($request->all());
+
+$data=$request->validate([
+  'title'=>'required|max:255',
+  'description'=>'required',
+  'long_description'=>'required',
+]);
+$task=new Task;
+$task->title=$data['title'];
+$task->description=$data['description'];
+$task->long_description=$data['long_description'];
+
+$task->save();
+return redirect()->route('tasks.show',['id'=>$task['id']]);
 })->name('tasks.store');
 
 /* 
